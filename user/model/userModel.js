@@ -38,11 +38,18 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
+        required: false,
         minlength: [8, "Password must be at least 8 characters long"],
         maxlength: [15, "Password must be at most 20 characters long"],
         match: [/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/, 'Password must contain at least one number, one uppercase letter, one lowercase letter, and one special character']
     },
+
+    googleId : {
+        type: String,
+        required: false,
+        unique: true
+    },
+
     role: {
         type: String,
         enum: Object.values(enumRole),
@@ -50,7 +57,7 @@ const userSchema = new mongoose.Schema({
     },
     phone: {
         type: String,
-        required: true,
+        required: false,
         unique: true,
         match: [/^01[0125][0-9]{8}$/, 'Please enter a valid phone number']
     },
@@ -61,4 +68,5 @@ const userSchema = new mongoose.Schema({
 });
 
 
-export const userModel = mongoose.model.user || mongoose.model('user', userSchema);
+const User = mongoose.model('User', userSchema);
+export default User;
