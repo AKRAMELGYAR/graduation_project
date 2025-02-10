@@ -54,8 +54,6 @@ const userSchema = new mongoose.Schema({
     },
     phone: {
         type: String,
-        unique: true,
-        sparse: true,
         match: [/^01[0125][0-9]{8}$/, 'Please enter a valid phone number']
     },
     status: {

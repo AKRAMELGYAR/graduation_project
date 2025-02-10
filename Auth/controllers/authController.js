@@ -1,6 +1,9 @@
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
+import * as userService from "../service/authService.js";
+import asyncHandler from "../../utils/globalErrorHandling/asyncHandler.js";
 
+export const signUp = asyncHandler(userService.signUp);
 export const googleAuth = passport.authenticate('google', { scope: ['profile', 'email'] });
 
 export const googleCallback = (req, res, next) => {
