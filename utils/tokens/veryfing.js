@@ -1,11 +1,18 @@
 import jwt from 'jsonwebtoken';
 
+const verifying = (req, res, next) => {
+    const token = req.cookies.token;
 
-const verifying = async ({ token, SECRET_KEY, next }) => {
-    const decoded = jwt.verify(token, SECRET_KEY);
-    if (!decoded?.email)
-        return next(new Error("invalid token payload", { cause: 400 }));
-    return decoded;
-}
+    if (!token) {
+        return res.status(401).json({ message: 'Unauthorized: No token provided' });
+    }
 
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
+        next();
+    } catch (error) {
+        return res.status(401).json({ message: 'Unauthorized: Invalid token' });
+    }
+};
 export default verifying;

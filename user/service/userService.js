@@ -11,7 +11,11 @@ export const signUp = async (req, res, next) => {
     if (user)
         return next(new Error("user already exists", { cause: 400 }));
     const hashedPassword = await hashed(password);
-    const token = await signing({payload:{email},SECRET_KEY:process.env.JWT_SECRET_SIGNUP,expire:{expiresIn:"1h"}});
+    //new user{}
+    //sign tomen
+    //res.cookie (copy)
+    //save user
+    const token = await signing({payload:{email},SECRET_KEY:process.env.JWT_SECRET_SIGNUP,expire:{expiresIn:"1d"}});
     eventEmitter.emit("confrimEmail", { email,token });
     const newUser = await saveUser({userData:{ firstName, lastName, userName, email, password: hashedPassword }});
     return res.status(200).json({msg:"user created successfully"});
