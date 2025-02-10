@@ -9,6 +9,7 @@ router.get('/google/callback', googleCallback);
 
 
 router.get('/dashboard' ,verifying, (req, res) => {
+    
     res.send('Welcome to the dashboard');
 });
 

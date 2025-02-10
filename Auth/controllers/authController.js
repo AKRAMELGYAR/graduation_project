@@ -13,7 +13,7 @@ export const googleCallback = (req, res, next) => {
             return res.status(400).json({ message: "User ID not found" });
         }
 
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+        const token = jwt.sign({ id: user._id , email : user.email }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
         res.cookie('token', token, {
             httpOnly: true,    
@@ -21,6 +21,7 @@ export const googleCallback = (req, res, next) => {
             sameSite: 'Strict',
             maxAge: 24 * 60 * 60 * 1000, // 1d
         });
+
 
         res.status(200).json({ message: 'Authentication successful', user });
     })(req, res, next);
