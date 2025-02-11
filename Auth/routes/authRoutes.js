@@ -22,5 +22,6 @@ router.get('/admin', verifying, verifyRole('admin'), (req, res) => {
 });
 
 router.post("/signup", validation(US.userSignUpSchema), userController.signUp);
+router.get("/signIn", validation(US.userSignInSchema), userController.signIn);
 
 export default router;

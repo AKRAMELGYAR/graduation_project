@@ -1,5 +1,6 @@
 import joi from "joi";
 import genralRules from "../../utils/generalRules/index.js";
+
 export const userSignUpSchema = {
     body: joi.object({
         firstName: joi.string().min(3).max(15).required(),
@@ -8,5 +9,12 @@ export const userSignUpSchema = {
         email: genralRules.email.required(),
         password: genralRules.password.required(),
         cPassword: joi.string().valid(joi.ref("password")).required()
+    })
+}
+
+export const userSignInSchema = {
+    body: joi.object({
+        email: genralRules.email.required(),
+        password: genralRules.password.required()
     })
 }
