@@ -5,6 +5,7 @@ import asyncHandler from "../../utils/globalErrorHandling/asyncHandler.js";
 
 export const signUp = asyncHandler(userService.signUp);
 export const signIn = asyncHandler(userService.signIn);
+// export const confirmedEmail = asyncHandler(userService.confirmEmail);
 export const googleAuth = passport.authenticate('google', { scope: ['profile', 'email'] });
 
 export const googleCallback = (req, res, next) => {

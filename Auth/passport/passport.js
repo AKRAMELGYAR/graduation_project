@@ -22,13 +22,13 @@ passport.use(new GoogleStrategy({
                 userName = `${firstName.toLowerCase()}${Math.floor(1000 + Math.random() * 9000)}`;
                 existingUser = await User.findOne({ userName });
             }
-
             user = new User({
                 firstName,
                 lastName,
                 userName,
                 email: profile.emails[0].value,
                 googleId: profile.id,
+                confirmed: true,
                 avatar: profile.photos[0]?.value,
             });
 

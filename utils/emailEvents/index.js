@@ -6,7 +6,7 @@ const eventEmitter = new EventEmitter();
 
 eventEmitter.on("confrimEmail", async (data) => {
     const { email,token } = data;
-    const sending = await sendEmails(email, "Verify Your Email", `<a href=${process.env.CONFIRM_URI}/${token}>Verify your email</a>`);
+    const sending = await sendEmails(email, "Verify Your Email", `<a href="http://localhost:3000/confirmEmail/${token}">Verify your email</a>`);
 });
 
 

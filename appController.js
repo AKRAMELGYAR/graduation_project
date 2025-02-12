@@ -8,6 +8,7 @@ import cors from "cors";
 
 export const appController = async (app, express) => {
     app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
     app.use(cookieParser());
 
     const corsOptions = {

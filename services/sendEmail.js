@@ -12,7 +12,7 @@ const sendEmails = async (email, subject, html) => {
     const info = await transporter.sendMail({
         from: process.env.SENDER, // sender address
         to: email, // list of receivers
-        subject: subject , // Subject line
+        subject: subject, // Subject line
         html: html, // html body
     });
 }

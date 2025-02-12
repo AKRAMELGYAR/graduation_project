@@ -4,6 +4,7 @@ import eventEmitter from "../../utils/emailEvents/index.js";
 import signing from "../../utils/tokens/signing.js";
 import { findUser, saveUser } from "../repo/authRepo.js";
 import User from "../../user/model/userModel.js";
+import jwt from 'jsonwebtoken';
 
 export const signUp = async (req, res, next) => {
     const { firstName, lastName, userName, email, password } = req.body;
@@ -24,6 +25,21 @@ export const signUp = async (req, res, next) => {
     const newUser = await saveUser({ userData: addUser });
     return res.status(200).json({msg:"user created successfully"});
 }
+
+
+// export const confirmEmail = async (req, res, next) => {
+//     const { id } = req.params;
+//     console.log(id);
+//     const decoded = jwt.verify(id, process.env.JWT_SECRET_SIGNUP);
+//     if (!decoded?.id)
+//         return next(new Error("invalid token", { cause: 400 }));
+//     const user = await findUser({ payload: { _id: decoded.id, confirmed: false } });
+//     if (!user)
+//         return next(new Error("user not found or already confirmed", { cause: 400 }));
+//     user.confirmed = true;
+//     const newUser = await saveUser({ userData: user });
+//     return res.status(200).json({ msg: "email confirmed successfully" });
+// }
 
 
 export const signIn = async (req, res, next) => {

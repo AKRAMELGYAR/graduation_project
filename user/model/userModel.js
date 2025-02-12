@@ -61,7 +61,11 @@ const userSchema = new mongoose.Schema({
     status: {
         type: String,
         enum: Object.values(enumStatus)
-    }
+    },
+    // confirmed: {
+    //     type: Boolean,
+    //     default: false
+    // }
 });
 
 
