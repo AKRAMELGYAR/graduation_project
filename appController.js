@@ -4,8 +4,16 @@ import './Auth/passport/passport.js';
 import globalErrorHandling from "./utils/globalErrorHandling/globalErrorHandling.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-
-
+import { rateLimit } from 'express-rate-limit';
+const limiter = rateLimit({
+    max: 10,
+    windowMs: 60 * 1000, // 1 minute
+    message: "Too many requests from this IP, please try again after 1 minute",
+    statusCode: 429,
+    handler: (req, res,next) => {
+        return next(new Error("Too many requests", { cause: 429 }));
+    }
+});
 export const appController = async (app, express) => {
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
@@ -18,6 +26,7 @@ export const appController = async (app, express) => {
         allowedHeaders: ['Content-Type', 'Authorization']
     };
     app.use(cors(corsOptions));
+    app.use(limiter);
 
     connectionDB();
     app.use(passport.initialize());

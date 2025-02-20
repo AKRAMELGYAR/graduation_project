@@ -5,6 +5,6 @@ export const findUser = async ({payload}) => {
 }
 
 export const saveUser = async ({ userData }) => {
-    const user = await User(userData);
-    return await user.save();
+    // const user = await User(userData);
+    return await userData.save();
 }
