@@ -5,8 +5,10 @@ import globalErrorHandling from "./utils/globalErrorHandling/globalErrorHandling
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { rateLimit } from 'express-rate-limit';
+import locationRoutes from "./locations/routes/locationRoutes.js";
+
 const limiter = rateLimit({
-    max: 10,
+    max: 20,
     windowMs: 60 * 1000, // 1 minute
     message: "Too many requests from this IP, please try again after 1 minute",
     statusCode: 429,
@@ -32,10 +34,6 @@ export const appController = async (app, express) => {
     app.use(passport.initialize());
     const authRoutes = await import("./Auth/routes/authRoutes.js");
     app.use("/", authRoutes.default);
-
-    const adminRoutes = await import("./Hospital/routes/hospitalRoutes.js");
-    app.use("/admin", adminRoutes.default);
-    
     app.use("*", (req, res, next) => {
         return next(new Error("Not found", { cause: 404 }));
     });
