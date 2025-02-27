@@ -6,4 +6,18 @@ const createHospital = async (hospital) => {
     return newHospital;
 }
 
-export { createHospital };
+const getHospitals = async () => {
+    const hospitals = await hospitalRepository.getHospitals();
+    return hospitals;
+}
+
+const deleteHospital = async (id) => {
+    const hospital = await hospitalRepository.deleteHospital(id);
+    return hospital;
+}
+export { 
+    createHospital,
+    getHospitals,
+    deleteHospital
+
+ };
