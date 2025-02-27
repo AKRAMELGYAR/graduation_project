@@ -34,6 +34,13 @@ export const appController = async (app, express) => {
     app.use(passport.initialize());
     const authRoutes = await import("./Auth/routes/authRoutes.js");
     app.use("/", authRoutes.default);
+
+    const locationRoutes = await import("./locations/routes/locationRoutes.js");
+    app.use("/admin/locations", locationRoutes.default);
+
+    const hospitalRoutes = await import("./Hospital/routes/hospitalRoutes.js");
+    app.use("/admin/hospitals", hospitalRoutes.default);
+
     app.use("*", (req, res, next) => {
         return next(new Error("Not found", { cause: 404 }));
     });

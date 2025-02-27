@@ -6,7 +6,4 @@ const createHospital = async (hospital) => {
     return newHospital;
 }
 
-export default
-{
-    createHospital
-}
+export { createHospital };
