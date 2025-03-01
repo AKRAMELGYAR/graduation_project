@@ -1,5 +1,5 @@
 import passport from 'passport';
-import jwt from 'jsonwebtoken';
+import signing from "../../utils/tokens/signing.js";
 import * as userService from "../service/authService.js";
 import asyncHandler from "../../utils/globalErrorHandling/asyncHandler.js";
 
@@ -9,7 +9,7 @@ export const signIn = asyncHandler(userService.signIn);
 export const googleAuth = passport.authenticate('google', { scope: ['profile', 'email'] });
 
 export const googleCallback = (req, res, next) => {
-    passport.authenticate('google', { session: false }, (err, user) => {
+    passport.authenticate('google', { session: false }, async (err, user) => {
         if (err || !user) {
             return res.status(401).json({ message: 'Authentication failed' });
         }
@@ -18,16 +18,10 @@ export const googleCallback = (req, res, next) => {
             return res.status(400).json({ message: "User ID not found" });
         }
 
-        const token = jwt.sign({ id: user._id , email : user.email }, process.env.JWT_SECRET, { expiresIn: '1d' });
-
-        res.cookie('token', token, {
-            httpOnly: true,    
-            // secure: true, production only
-            sameSite: 'Strict',
-            maxAge: 24 * 60 * 60 * 1000, // 1d
-        });
+        const token = await signing({ payload: { email: user.email, id: user._id }, SECRET_KEY: process.env.JWT_SECRET, expire: { expiresIn: "1d" } });
 
 
-        res.status(200).json({ message: 'Authentication successful', user });
+
+        res.status(200).json({ message: 'Authentication successful', user , token });
     })(req, res, next);
 };

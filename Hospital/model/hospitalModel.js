@@ -11,7 +11,13 @@ const hospitalSchema = new mongoose.Schema({
         type : mongoose.Schema.Types.ObjectId,
         ref : 'Location',
         required : true
-    }
+    },
+    address:{
+        type: String,
+        required: true,
+        minlength: [10, "Address must be at least 10 characters long"],
+        maxlength: [100, "Address must be at most 100 characters long"]
+    },
 })
 
 export const Hospital = mongoose.model('Hospital', hospitalSchema);
