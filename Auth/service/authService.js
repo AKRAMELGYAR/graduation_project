@@ -1,6 +1,6 @@
 import hashed from "../../utils/encrypting/hashing.js";
 import comparePassword from "../../utils/encrypting/comparing.js";
-import eventEmitter from "../../utils/emailEvents/index.js";
+// import eventEmitter from "../../utils/emailEvents/index.js";
 import signing from "../../utils/tokens/signing.js";
 import { findUser, saveUser } from "../repo/authRepo.js";
 import { User} from "../../user/model/userModel.js";

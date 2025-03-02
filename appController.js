@@ -5,7 +5,7 @@ import globalErrorHandling from "./utils/globalErrorHandling/globalErrorHandling
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { rateLimit } from 'express-rate-limit';
-import locationRoutes from "./locations/routes/locationRoutes.js";
+
 
 const limiter = rateLimit({
     max: 20,
@@ -40,6 +40,9 @@ export const appController = async (app, express) => {
 
     const hospitalRoutes = await import("./Hospital/routes/hospitalRoutes.js");
     app.use("/admin/hospitals", hospitalRoutes.default);
+
+    const doctorRoutes = await import("./DoctorDetails/routes/doctorRoutes.js");
+    app.use("/admin/doctors", doctorRoutes.default);
 
     app.use("*", (req, res, next) => {
         return next(new Error("Not found", { cause: 404 }));

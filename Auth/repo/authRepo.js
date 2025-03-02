@@ -1,10 +1,9 @@
 import {User} from "../../user/model/userModel.js";
 
 export const findUser = async ({payload}) => {
-    return await User.findOne(payload);
+    return await User.findOne(payload).select('-password -__v -role');
 }
 
 export const saveUser = async ({ userData }) => {
-    // const user = await User(userData);
     return await userData.save();
 }

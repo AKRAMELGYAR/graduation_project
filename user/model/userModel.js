@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import { DoctorDetails } from '../../DoctorDetails/model/doctorDetailsModel.js';
+
 
 export const enumRole = {
     patient: 'patient',
@@ -27,7 +29,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: [3, "Username must be at least 3 characters long"],
-        maxlength: [15, "Username must be at most 20 characters long"],
+        maxlength: [25, "Username must be at most 25 characters long"],
         unique: true
     },
     email: {
@@ -40,7 +42,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         unique: true,
         sparse: true,
-        match: [/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/, 'Password must contain at least one number, one uppercase letter, one lowercase letter, and one special character'],
+        minlength: [8, "Password must be at least 8 characters long"],
     },
 
     googleId : {
@@ -66,6 +68,17 @@ const userSchema = new mongoose.Schema({
     //     type: Boolean,
     //     default: false
     // }
+});
+
+userSchema.pre('deleteOne', { document: false, query: true }, async function (next) {
+
+    const user = await this.model.findOne(this.getQuery());
+
+    if (user?.role === enumRole.doctor) {
+        await DoctorDetails.deleteOne({ userId: user._id });
+    }
+
+    next();
 });
 
 export const User = mongoose.model('User', userSchema);

@@ -8,7 +8,7 @@ const customId = (value, helper) => {
 const genralRules = {
     objectId: joi.string().custom(customId).hex(),
     email: joi.string().email({ tlds: { allow: true }, minDomainSegments: 2, maxDomainSegments: 4 }),
-    password: joi.string().regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,15}$/),
+    password: joi.string().min(8).max(30),
     headers:joi.object({
         authorization: joi.string().required(),
         'cache-control':joi.string(),
