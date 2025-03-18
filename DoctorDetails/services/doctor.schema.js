@@ -9,7 +9,11 @@ export const addDoctorSchema = {
         lastName: joi.string().min(3).max(15).required(),
         speciality: joi.string().min(3).max(15).required(),
         email: joi.string().email({tlds:true}).required(),
-        hospitalId: genralRules.objectId.required()
+        location: joi.string().min(24).max(24).required(),
+        address : joi.string().min(10).max(50).required(),
+        experience : joi.number().min(1).max(50).required(),
+        fees: joi.number().min(100).max(5000).required(),
+        aboutDoctor: joi.string().min(10).max(1000).required()
     })
 }
 

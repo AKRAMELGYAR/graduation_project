@@ -12,10 +12,29 @@ const doctorDetailsSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    hospitalId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Hospital',
-        required: true
+    location:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Location',
+        required:true
+    },
+    address:{
+        type:String,
+        required:true
+    },
+    experience:{
+        type:Number,
+        required:true
+    },
+    fees : {
+        type:Number,
+        required:true
+    },
+    aboutDoctor:{
+        type:String,
+        required:true
+    },
+    image:{
+        type:String,
     }
 });
 

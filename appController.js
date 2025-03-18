@@ -38,9 +38,6 @@ export const appController = async (app, express) => {
     const locationRoutes = await import("./locations/routes/locationRoutes.js");
     app.use("/admin/locations", locationRoutes.default);
 
-    const hospitalRoutes = await import("./Hospital/routes/hospitalRoutes.js");
-    app.use("/admin/hospitals", hospitalRoutes.default);
-
     const doctorRoutes = await import("./DoctorDetails/routes/doctorRoutes.js");
     app.use("/admin/doctors", doctorRoutes.default);
 

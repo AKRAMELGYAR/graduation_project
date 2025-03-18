@@ -11,9 +11,9 @@ import mongoose from "mongoose";
 
 export const addDoctor = async (req, res, next) => {
 
-    const { firstName, lastName, speciality, email, hospitalId } = req.body;
+    const { firstName, lastName, speciality, email, location, address, experience, fees, aboutDoctor } = req.body;
 
-    // firstName, lastName, email , speciality, LocationId , address, experince , fees , aboutDoctor, image
+    //  image
 
     const ifDoctorExists = await findUser({ payload: { email } });
 
@@ -32,13 +32,16 @@ export const addDoctor = async (req, res, next) => {
         email,
         password: await hashed(password),
         role: enumRole.doctor,
-        hospitalId
     };
 
     const newDoctorDetails = {
         userId: id,
         speciality,
-        hospitalId
+        location,
+        address,
+        experience,
+        fees,
+        aboutDoctor
     }
 
     await Promise.all([
@@ -47,7 +50,8 @@ export const addDoctor = async (req, res, next) => {
     ])
 
     return res.status(201).json({
-        message: "done", data: {
+        message: "done", 
+        data: {
             email: newDoctor.email,
             password: password
     }});
