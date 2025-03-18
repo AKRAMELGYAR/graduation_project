@@ -5,12 +5,15 @@ import hashed from "../../utils/encrypting/hashing.js";
 import { enumRole, User } from "../../user/model/userModel.js";
 import { findUser, saveUser } from "../../Auth/repo/authRepo.js";
 import { getAllDoctors, deleteDoc } from "../repository/doctorRepo.js";
+import mongoose from "mongoose";
 
 
 
 export const addDoctor = async (req, res, next) => {
 
     const { firstName, lastName, speciality, email, hospitalId } = req.body;
+
+    // firstName, lastName, email , speciality, LocationId , address, experince , fees , aboutDoctor, image
 
     const ifDoctorExists = await findUser({ payload: { email } });
 
@@ -19,7 +22,10 @@ export const addDoctor = async (req, res, next) => {
 
     const password = await createRandomPass();
 
-    const newDoctor = new User({
+    const id = new mongoose.Types.ObjectId();
+
+    const newDoctor = {
+        _id: id,
         firstName,
         lastName,
         userName: email.split('@')[0],
@@ -27,13 +33,13 @@ export const addDoctor = async (req, res, next) => {
         password: await hashed(password),
         role: enumRole.doctor,
         hospitalId
-    })
+    };
 
-    const newDoctorDetails = new DoctorDetails({
-        userId: newDoctor._id,
+    const newDoctorDetails = {
+        userId: id,
         speciality,
         hospitalId
-    })
+    }
 
     await Promise.all([
         saveUser({userData: newDoctor}),

@@ -1,8 +1,9 @@
 import { enumRole, User } from "../../user/model/userModel.js";
 import { DoctorDetails } from "../model/doctorDetailsModel.js";
 
-export const addDoctorDetails = async ({data}) => {
-    return await data.save();
+export const addDoctorDetails = async ({ data }) => {
+    const doctorDetails = new DoctorDetails(data);
+    return await doctorDetails.save();
 }
 
 export const getAllDoctors = async () => {

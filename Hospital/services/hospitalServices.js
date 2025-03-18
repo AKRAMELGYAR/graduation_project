@@ -15,6 +15,8 @@ const deleteHospital = async (id) => {
     const hospital = await hospitalRepository.deleteHospital(id);
     return hospital;
 }
+
+
 export { 
     createHospital,
     getHospitals,
