@@ -2,11 +2,12 @@ import { Router } from "express";
 import * as doctorController from "../controllers/doctorController.js";
 import validation from "../../middlewares/validation.js";
 import * as DS from "../services/doctor.schema.js";
+import { multerWithCloudinary, fileTypes } from "../../middlewares/multer.js";
 
 
 const doctorRouter = Router();
 
-doctorRouter.post("/addDoctor", validation(DS.addDoctorSchema), doctorController.addDoctor);
+doctorRouter.post("/addDoctor", multerWithCloudinary([...fileTypes.image]).single("image"), validation(DS.addDoctorSchema), doctorController.addDoctor);
 
 doctorRouter.get("/getDoctor", doctorController.getDoctor);
 

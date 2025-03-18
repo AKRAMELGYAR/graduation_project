@@ -34,7 +34,8 @@ const doctorDetailsSchema = new mongoose.Schema({
         required:true
     },
     image:{
-        type:String,
+        secure_url: String,
+        public_id: String
     }
 });
 

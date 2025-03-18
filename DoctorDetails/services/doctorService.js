@@ -1,4 +1,3 @@
-import { DoctorDetails } from "../model/doctorDetailsModel.js";
 import { addDoctorDetails, updateDoctorDetails } from "../repository/doctorRepo.js";
 import createRandomPass from "../../utils/createRandomPass/index.js";
 import hashed from "../../utils/encrypting/hashing.js";
@@ -6,6 +5,7 @@ import { enumRole, User } from "../../user/model/userModel.js";
 import { findUser, saveUser } from "../../Auth/repo/authRepo.js";
 import { getAllDoctors, deleteDoc } from "../repository/doctorRepo.js";
 import mongoose from "mongoose";
+import cloudinary from "../../utils/cloudinary/index.js";
 
 
 
@@ -13,12 +13,24 @@ export const addDoctor = async (req, res, next) => {
 
     const { firstName, lastName, speciality, email, location, address, experience, fees, aboutDoctor } = req.body;
 
-    //  image
-
     const ifDoctorExists = await findUser({ payload: { email } });
 
     if (ifDoctorExists)
         return next(new Error("Doctor already exists", { cause: 400 }));
+
+    let image = {};
+
+    if (req.file) {
+        let {secure_url , public_id} = await cloudinary.uploader.upload(req.file.path, {
+            folder: "Appointments_APP/Doctors",
+            use_filename: true,
+            unique_filename: false
+        });
+        image = {
+            secure_url,
+            public_id
+        }
+    }
 
     const password = await createRandomPass();
 
@@ -31,7 +43,7 @@ export const addDoctor = async (req, res, next) => {
         userName: email.split('@')[0],
         email,
         password: await hashed(password),
-        role: enumRole.doctor,
+        role: enumRole.doctor
     };
 
     const newDoctorDetails = {
@@ -41,7 +53,8 @@ export const addDoctor = async (req, res, next) => {
         address,
         experience,
         fees,
-        aboutDoctor
+        aboutDoctor,
+        image
     }
 
     await Promise.all([
