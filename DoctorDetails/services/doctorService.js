@@ -74,7 +74,7 @@ export const addDoctor = async (req, res, next) => {
 
 export const getDoctor = async (req, res, next) => {
 
-    const { id } = req.query;
+    const { id } = req.params;
 
     const doctor = await findUser({ payload: { _id: id } });
 
