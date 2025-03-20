@@ -41,6 +41,9 @@ export const appController = async (app, express) => {
     const doctorRoutes = await import("./DoctorDetails/routes/doctorRoutes.js");
     app.use("/admin/doctors", doctorRoutes.default);
 
+    const DoctorSchedule = await import("./Doctor/routes/scheduleRoutes.js");
+    app.use("/doctor/schedule", DoctorSchedule.default);
+
     app.use("*", (req, res, next) => {
         return next(new Error("Not found", { cause: 404 }));
     });
