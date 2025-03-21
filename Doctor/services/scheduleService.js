@@ -8,10 +8,11 @@ export const generateWeeklySlots = async (doctorId, workingDays, sessionDuration
     let schedules = {}; 
 
     for (const { day, slots } of workingDays) {
-        const targetDate = startOfWeek.plus({ days: DateTime.fromFormat(day, "EEEE").weekday - 1 });
+        let targetDate = startOfWeek.plus({ days: DateTime.fromFormat(day, "EEEE").weekday - 1 });
 
         if (targetDate < today) {
-            continue; 
+            targetDate = targetDate.plus({ days: 7 });
+            // continue; 
         }
 
         const key = `${doctorId}-${day}-${targetDate.toISODate()}`;
