@@ -13,8 +13,8 @@ doctorRouter.get("/:id", doctorController.getDoctor);
 
 doctorRouter.get("/getAllDoctors", doctorController.getAllDoctors);
 
-doctorRouter.delete("/deleteDoctor", doctorController.deleteDoctor);
+doctorRouter.delete("/:id", doctorController.deleteDoctor);
 
-doctorRouter.patch("/updateDoctor", validation(DS.updateDoctorSchema), doctorController.updateDoctor);
+doctorRouter.patch("/:id", validation(DS.updateDoctorSchema), doctorController.updateDoctor);
 
 export default doctorRouter;

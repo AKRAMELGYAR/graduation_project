@@ -105,7 +105,7 @@ export const getDoctors = async (req, res, next) => {
 
 export const deleteDoctor = async (req, res, next) => {
 
-    const { id } = req.query;
+    const { id } = req.params;
 
     const doctor = await findUser({ payload: { _id : id } });
 
@@ -124,7 +124,7 @@ export const deleteDoctor = async (req, res, next) => {
 
 export const updateDoctor = async (req, res, next) => {
 
-    const { id } = req.query;
+    const { id } = req.params;
 
     const doctor = await findUser({ payload: { _id: id } });
 

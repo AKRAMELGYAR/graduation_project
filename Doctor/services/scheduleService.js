@@ -1,7 +1,6 @@
 import { DateTime } from "luxon";
-import Schedule from "../model/scheduleModel.js";
+import { setSchedule } from "../repo/scheduling.js";
 
-// repo , check doctorId
 
 export const generateWeeklySlots = async (doctorId, workingDays, sessionDuration) => {
     const today = DateTime.now().startOf("day");
@@ -11,7 +10,6 @@ export const generateWeeklySlots = async (doctorId, workingDays, sessionDuration
     for (const { day, slots } of workingDays) {
         const targetDate = startOfWeek.plus({ days: DateTime.fromFormat(day, "EEEE").weekday - 1 });
 
-        
         if (targetDate < today) {
             continue; 
         }
@@ -56,6 +54,6 @@ export const generateWeeklySlots = async (doctorId, workingDays, sessionDuration
     const availableSlots = Object.values(schedules);
 
 
-    await Schedule.insertMany(availableSlots);
+    await setSchedule(availableSlots);
     return availableSlots;
 };

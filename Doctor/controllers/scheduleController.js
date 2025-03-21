@@ -1,27 +1,41 @@
+import { findUser } from "../../Auth/repo/authRepo.js";
+import { enumRole } from "../../user/model/userModel.js";
 import Schedule from "../model/scheduleModel.js";
 import { generateWeeklySlots } from "../services/scheduleService.js";
+import asyncHandler from "../../utils/globalErrorHandling/asyncHandler.js";
 
-export const setDoctorSchedule = async (req, res) => {
-    try {
+export const setDoctorSchedule = asyncHandler(
+    async (req, res, next) => {
+
         const { doctorId, workingDays, sessionDuration } = req.body;
 
-        if (!doctorId || !workingDays || !sessionDuration) {
-            return res.status(400).json({ message: "Missing required fields" });
-        }
+        if (!doctorId || !workingDays || !sessionDuration)
+            return next(new Error("Missing required fields", { cause: 400 }));
 
         const slots = await generateWeeklySlots(doctorId, workingDays, sessionDuration);
-        return res.status(201).json({ message: "Schedule created successfully", slots });
-    } catch (error) {
-        return res.status(500).json({ message: "Internal Server Error", error });
-    }
-};
 
-export const getDoctorSchedule = async (req, res) => {
-    try {
-        const { doctorId } = req.params;
-        const schedule = await Schedule.find({ doctorId });
-        return res.status(200).json({ schedule });
-    } catch (error) {
-        return res.status(500).json({ message: "Internal Server Error", error });
+        if (!slots)
+            return next(new Error("Oops something went wrong", { cause: 500 }));
+
+        return res.status(201).json({ message: "done", slots });
     }
-};
+);
+
+export const getDoctorSchedule = asyncHandler(
+    async (req, res,next) => {
+
+        const { doctorId } = req.params;
+
+        const findDoctor = await findUser({ payload: { _id: doctorId, role: enumRole.doctor } });
+
+        if (!findDoctor) 
+            return next(new Error("Doctor not found", { cause: 404 }));
+
+        const schedule = await Schedule.find({ doctorId });
+        
+        if (!schedule)
+            return next(new Error("Schedule not found", { cause: 404 }));
+
+        return res.status(200).json({ message: "done", schedule });
+    }
+);
