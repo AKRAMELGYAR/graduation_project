@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import { getScheule, setSchedule, updateSchedule } from "../repo/scheduling.js";
+import { getScheule, setSchedule } from "../repo/scheduling.js";
 import { generating } from "./generatingFun.js";
 
 export const generateWeeklySlots = async (doctorId, workingDays, sessionDuration) => {
@@ -16,22 +16,13 @@ export const generateWeeklySlots = async (doctorId, workingDays, sessionDuration
             // continue; 
         }
 
-        const findSchedule = await getScheule({ payload: { doctorId, date: targetDate.toISODate() } });
+        const findScheduleAndDelete = await getScheule({ payload: { doctorId, date: targetDate.toISODate() } });
 
-        if (findSchedule.length === 0) {
-            const newSlots = await generating({ DateTime, doctorId, targetDate, slots, day, sessionDuration });
-            availableSlots.push(newSlots);
-            await setSchedule(availableSlots[0]);
-
-        } else {
-            const newSlots = await generating({ DateTime, doctorId, targetDate, slots, day, sessionDuration });
-            availableSlots.push(newSlots);
-            await updateSchedule({ 
-                payload: { doctorId, date: targetDate.toISODate() }, 
-                availableSlots
-            });
-        }
+        const newSlots = await generating({ DateTime, doctorId, targetDate, slots, day, sessionDuration });
+        availableSlots.push(newSlots);
     }
+
+    await setSchedule(availableSlots);
 
     return availableSlots;
 };

@@ -6,10 +6,6 @@ export const addDoctorDetails = async ({ data }) => {
     return await doctorDetails.save();
 }
 
-export const getAllDoctors = async () => {
-    return await User.find({role: enumRole.doctor}).select('-password -_id -__v -role');
-}
-
 export const deleteDoc = async ({ payload }) => {
     return await User.deleteOne(payload);
 }

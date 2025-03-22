@@ -9,9 +9,9 @@ const doctorRouter = Router();
 
 doctorRouter.post("/addDoctor", multerWithCloudinary([...fileTypes.image]).single("image"), validation(DS.addDoctorSchema), doctorController.addDoctor);
 
-doctorRouter.get("/:id", doctorController.getDoctor);
+doctorRouter.get("/allDoctors", doctorController.getAllDoctors);
 
-doctorRouter.get("/getAllDoctors", doctorController.getAllDoctors);
+doctorRouter.get("/:id", doctorController.getDoctor);
 
 doctorRouter.delete("/:id", doctorController.deleteDoctor);
 

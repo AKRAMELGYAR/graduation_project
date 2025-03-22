@@ -24,7 +24,7 @@ export const updateDoctorSchema = {
         speciality: joi.string().min(3).max(15),
         email: joi.string().email({tlds:true}),
     }),
-    query: joi.object({
+    params: joi.object({
         id: genralRules.objectId.required()
     })
 }
