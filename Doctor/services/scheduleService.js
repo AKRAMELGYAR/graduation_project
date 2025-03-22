@@ -21,14 +21,14 @@ export const generateWeeklySlots = async (doctorId, workingDays, sessionDuration
         if (findSchedule.length === 0) {
             const newSlots = await generating({ DateTime, doctorId, targetDate, slots, day, sessionDuration });
             availableSlots.push(newSlots);
-            await setSchedule(availableSlots);
+            await setSchedule(availableSlots[0]);
 
         } else {
             const newSlots = await generating({ DateTime, doctorId, targetDate, slots, day, sessionDuration });
             availableSlots.push(newSlots);
             await updateSchedule({ 
                 payload: { doctorId, date: targetDate.toISODate() }, 
-                availableSlots 
+                availableSlots
             });
         }
     }
