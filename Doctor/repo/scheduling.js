@@ -3,10 +3,10 @@ import scheduleModel from "../model/scheduleModel.js";
 
 
 export const setSchedule = async (availableSlots) => {
-    return await scheduleModel.insertMany(availableSlots.flat());
+    return await scheduleModel.insertMany(availableSlots);
 }
 
 
-export const getScheule = async ({payload}) => {
-    return await scheduleModel.findOneAndDelete(payload,{new : true});
+export const delSchedule = async ({payload}) => {
+    return await scheduleModel.deleteOne(payload);
 }
