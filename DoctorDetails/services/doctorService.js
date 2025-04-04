@@ -2,8 +2,8 @@ import { addDoctorDetails, updateDoctorDetails } from "../repository/doctorRepo.
 import createRandomPass from "../../utils/createRandomPass/index.js";
 import hashed from "../../utils/encrypting/hashing.js";
 import { enumRole, User } from "../../user/model/userModel.js";
-import { findUser, findUsers, saveUser } from "../../Auth/repo/authRepo.js";
-import { deleteDoc } from "../repository/doctorRepo.js";
+import { saveUser, findUser } from "../../Auth/repo/authRepo.js";
+import { deleteDoc, findUsers as findDoctorDetails } from "../repository/doctorRepo.js";
 import mongoose from "mongoose";
 import cloudinary from "../../utils/cloudinary/index.js";
 
@@ -76,7 +76,7 @@ export const getDoctor = async (req, res, next) => {
 
     const { id } = req.params;
 
-    const doctor = await findUser({ payload: { _id: id } });
+    const doctor = await findDoctorDetails({ payload: { userId: id } });
 
     if (!doctor)
         return next(new Error("Doctor not found", { cause: 404 }));
@@ -91,7 +91,7 @@ export const getDoctor = async (req, res, next) => {
 
 export const getDoctors = async (req, res, next) => {
 
-    const doctors = await findUsers({ payload: { role: enumRole.doctor } });
+    const doctors = await findDoctorDetails({ payload: {} });
 
     if (!doctors)
         return next(new Error("Doctor not found", { cause: 404 }));
