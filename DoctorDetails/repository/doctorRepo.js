@@ -10,6 +10,12 @@ export const deleteDoc = async ({ payload }) => {
     return await User.deleteOne(payload);
 }
 
+export const findUsers = async ({payload = {}}) => {
+    return await DoctorDetails.find(payload).populate({
+        path: "userId"
+    });
+}
+
 
 export const updateDoctorDetails = async ({ user, payload }) => {
     return await DoctorDetails.updateOne(user, payload);
