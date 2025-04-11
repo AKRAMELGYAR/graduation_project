@@ -22,7 +22,7 @@ export const appController = async (app, express) => {
     app.use(cookieParser());
 
     const corsOptions = {
-        origin: process.env.CLIENT_URL || 'http://localhost:5173',
+        origin: process.env.CLIENT_URL || 'http://localhost:5173' || 'http://localhost:5174',
         credentials: true,
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
         allowedHeaders: ['Content-Type', 'Authorization']
@@ -34,6 +34,9 @@ export const appController = async (app, express) => {
     app.use(passport.initialize());
     const authRoutes = await import("./Auth/routes/authRoutes.js");
     app.use("/", authRoutes.default);
+
+    const userRoutes = await import("./user/routes/userRoutes.js");
+    app.use("/profile", userRoutes.default);
 
     const locationRoutes = await import("./locations/routes/locationRoutes.js");
     app.use("/admin/locations", locationRoutes.default);

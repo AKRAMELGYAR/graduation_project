@@ -16,7 +16,7 @@ export const signUp = async (req, res, next) => {
     
     // eventEmitter.emit("confrimEmail", { email, token });
     const newUser = await saveUser({ userData: addUser });
-    return res.status(200).json({message:"done", token});
+    return res.status(200).json({message:"done", token, role: newUser.role});
 }
 
 // export const confirmEmail = async (req, res, next) => {
@@ -44,5 +44,5 @@ export const signIn = async (req, res, next) => {
         return next(new Error("wrong password", { cause: 400 }));
     const token = await signing({ payload: { email: user.email, id: user._id }, SECRET_KEY: process.env.JWT_SECRET, expire: { expiresIn: "1d" } });
     
-    return res.status(200).json({ message: "done", token });
+    return res.status(200).json({ message: "done", token, role: user.role });
 }

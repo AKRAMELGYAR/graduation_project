@@ -10,6 +10,8 @@ import cloudinary from "../../utils/cloudinary/index.js";
 
 
 export const addDoctor = async (req, res, next) => {
+    if(!req.user)
+        return next(new Error("Unauthorized", { cause: 401 }));
 
     const { firstName, lastName, speciality, email, location, address, experience, fees, aboutDoctor } = req.body;
 
@@ -74,11 +76,14 @@ export const addDoctor = async (req, res, next) => {
 
 export const getDoctor = async (req, res, next) => {
 
+    if(!req.user)
+        return next(new Error("Unauthorized", { cause: 401 }));
+
     const { id } = req.params;
 
     const doctor = await findDoctorDetails({ payload: { userId: id } });
 
-    if (!doctor)
+    if (doctor.length === 0)
         return next(new Error("Doctor not found", { cause: 404 }));
 
     return res.status(200).json({
@@ -90,6 +95,8 @@ export const getDoctor = async (req, res, next) => {
 
 
 export const getDoctors = async (req, res, next) => {
+    if(!req.user)
+        return next(new Error("Unauthorized", { cause: 401 }));
 
     const doctors = await findDoctorDetails({ payload: {} });
 
@@ -104,10 +111,12 @@ export const getDoctors = async (req, res, next) => {
 
 
 export const deleteDoctor = async (req, res, next) => {
+    if(!req.user)
+        return next(new Error("Unauthorized", { cause: 401 }));
 
     const { id } = req.params;
 
-    const doctor = await findUser({ payload: { _id : id } });
+    const doctor = await findUser({ payload: { _id : id, role: enumRole.doctor } });
 
     if (!doctor)
         return next(new Error("Doctor not found", { cause: 404 }));
@@ -123,6 +132,8 @@ export const deleteDoctor = async (req, res, next) => {
 
 
 export const updateDoctor = async (req, res, next) => {
+    if(!req.user)
+        return next(new Error("Unauthorized", { cause: 401 }));
 
     const { id } = req.params;
 

@@ -6,6 +6,8 @@ import asyncHandler from "../../utils/globalErrorHandling/asyncHandler.js";
 
 export const setDoctorSchedule = asyncHandler(
     async (req, res, next) => {
+        if (!req.user)
+            return next(new Error("Unauthorized", { cause: 401 }));
 
         const { doctorId, workingDays, sessionDuration } = req.body;
 
@@ -23,6 +25,8 @@ export const setDoctorSchedule = asyncHandler(
 
 export const getDoctorSchedule = asyncHandler(
     async (req, res,next) => {
+        if (!req.user)
+            return next(new Error("Unauthorized", { cause: 401 }));
 
         const { doctorId } = req.params;
 

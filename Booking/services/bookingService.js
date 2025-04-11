@@ -1,7 +1,7 @@
 import * as bookingRepo from "../repo/bookingRepo.js";
 
 
-export const bookSlot = async (patientId, scheduleId, slotId) => {
+export const bookSlot = async (patientId, scheduleId, slotId, next) => {
     const schedule = await bookingRepo.findScheduleById(scheduleId);
     if (!schedule) return next(new Error("Schedule not found" , {cause : 404}));
 
@@ -24,7 +24,7 @@ export const bookSlot = async (patientId, scheduleId, slotId) => {
     return booking;
 };
 
-export const respondToBooking = async (bookingId, doctorId, accept) => {
+export const respondToBooking = async (bookingId, doctorId, accept, next) => {
     const booking = await bookingRepo.updateBookingStatus(bookingId, accept ? "confirmed" : "rejected");
     if (!booking || booking.doctorId.toString() !== doctorId) return next(new Error("Unauthorized or booking not found" , {cause : 404}))
 

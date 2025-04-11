@@ -26,5 +26,6 @@ export const updateDoctorSchema = {
     }),
     params: joi.object({
         id: genralRules.objectId.required()
-    })
+    }),
+    headers: genralRules.headers.required(),
 }
