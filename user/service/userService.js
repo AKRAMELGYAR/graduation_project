@@ -6,5 +6,5 @@ export const getProfile = async (req, res, next) =>{
 
     const user = req.user;
 
-    return res.status(200).json({message: "done", user});
+    return res.status(200).json({message: "success", user});
 }

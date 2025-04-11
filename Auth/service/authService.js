@@ -12,11 +12,11 @@ export const signUp = async (req, res, next) => {
         return next(new Error("user already exists", { cause: 400 }));
     const hashedPassword = await hashed(password);
     const addUser = new User({ firstName, lastName, userName, email, password: hashedPassword });
-    const token = await signing({ payload: { email: addUser.email, id: addUser._id}, SECRET_KEY: process.env.JWT_SECRET, expire: { expiresIn: "1d" } });
+    // const token = await signing({ payload: { email: addUser.email, id: addUser._id}, SECRET_KEY: process.env.JWT_SECRET, expire: { expiresIn: "1d" } });
     
     // eventEmitter.emit("confrimEmail", { email, token });
     const newUser = await saveUser({ userData: addUser });
-    return res.status(200).json({message:"done", token, role: newUser.role});
+    return res.status(200).json({message:"success"});
 }
 
 // export const confirmEmail = async (req, res, next) => {
@@ -44,5 +44,5 @@ export const signIn = async (req, res, next) => {
         return next(new Error("wrong password", { cause: 400 }));
     const token = await signing({ payload: { email: user.email, id: user._id }, SECRET_KEY: process.env.JWT_SECRET, expire: { expiresIn: "1d" } });
     
-    return res.status(200).json({ message: "done", token, role: user.role });
+    return res.status(200).json({ message: "success", token, role: user.role });
 }

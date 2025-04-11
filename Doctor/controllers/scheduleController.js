@@ -19,7 +19,7 @@ export const setDoctorSchedule = asyncHandler(
         if (!slots)
             return next(new Error("Oops something went wrong", { cause: 500 }));
 
-        return res.status(201).json({ message: "done", slots });
+        return res.status(201).json({ message: "success", slots });
     }
 );
 
@@ -40,6 +40,6 @@ export const getDoctorSchedule = asyncHandler(
         if (!schedule)
             return next(new Error("Schedule not found", { cause: 404 }));
 
-        return res.status(200).json({ message: "done", schedule });
+        return res.status(200).json({ message: "success", schedule });
     }
 );

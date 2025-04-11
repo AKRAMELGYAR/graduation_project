@@ -65,7 +65,7 @@ export const addDoctor = async (req, res, next) => {
     ])
 
     return res.status(201).json({
-        message: "done", 
+        message: "success", 
         data: {
             email: newDoctor.email,
             password: password
@@ -87,7 +87,7 @@ export const getDoctor = async (req, res, next) => {
         return next(new Error("Doctor not found", { cause: 404 }));
 
     return res.status(200).json({
-        message: "done", data: doctor
+        message: "success", data: doctor
     })
 
 }
@@ -104,7 +104,7 @@ export const getDoctors = async (req, res, next) => {
         return next(new Error("Doctor not found", { cause: 404 }));
 
     return res.status(200).json({
-        message: "done", data: doctors
+        message: "success", data: doctors
     })
 }
 
@@ -124,7 +124,7 @@ export const deleteDoctor = async (req, res, next) => {
     await deleteDoc({ payload: { _id : id } });
 
     return res.status(200).json({
-        message: "done"
+        message: "success"
     })
 
 }
@@ -155,6 +155,6 @@ export const updateDoctor = async (req, res, next) => {
     await saveUser({ userData: doctor });
 
     return res.status(200).json({
-        message: "done"
+        message: "success"
     })
 }
