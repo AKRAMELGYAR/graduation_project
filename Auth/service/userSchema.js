@@ -6,7 +6,7 @@ export const userSignUpSchema = {
         firstName: joi.string().min(3).max(15).required(),
         lastName: joi.string().min(3).max(15).required(),
         userName: joi.string().min(3).max(15).required(),
-        email: genralRules.email.required(),
+        email: genralRules.email.message("invalid email").required(),
         password: genralRules.password.required()
     })
 }
