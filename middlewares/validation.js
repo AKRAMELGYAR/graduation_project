@@ -6,7 +6,7 @@ const validation = (schema) => (req,res,next)=>{
             errArr.push(validatee.error);
     }
     if (errArr.length > 0)
-        return res.status(400).json({ msg: errArr });
+        return res.status(400).json({ message: errArr.map((err) => err.message).join("") });
     next();
 }
 
