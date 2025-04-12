@@ -11,9 +11,9 @@ const doctorRouter = Router();
 
 doctorRouter.post("/addDoctor", multerWithCloudinary([...fileTypes.image]).single("image"), authentication, verifyRole([enumRole.admin]), validation(DS.addDoctorSchema), doctorController.addDoctor);
 
-doctorRouter.get("/allDoctors", authentication, verifyRole([enumRole.admin]), doctorController.getAllDoctors);
+doctorRouter.get("/allDoctors", authentication, doctorController.getAllDoctors);
 
-doctorRouter.get("/:id", authentication, verifyRole([enumRole.admin]),doctorController.getDoctor);
+doctorRouter.get("/:id", authentication, doctorController.getDoctor);
 
 doctorRouter.delete("/:id", authentication, verifyRole([enumRole.admin]),doctorController.deleteDoctor);
 

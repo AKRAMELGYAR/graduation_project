@@ -5,7 +5,6 @@ import { findUser } from "../Auth/repo/authRepo.js";
 
 const authentication = asyncHandler(
     async (req, res, next) => {
-
         const token = req.headers.authorization;
         if (!token) return next(new Error("Unauthorized", { cause: 401 }));
         const decoded = await verifying({ payload: token, SECRET_KEY: process.env.JWT_SECRET });
