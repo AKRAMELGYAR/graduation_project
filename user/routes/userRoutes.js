@@ -4,7 +4,7 @@ import authentication from "../../middlewares/authentication.js";
 
 const userRoutes = Router();
 
-userRoutes.get("/", authentication, userController.getProfile);
+userRoutes.get("/profile", authentication, userController.getProfile);
 
 
 export default userRoutes;

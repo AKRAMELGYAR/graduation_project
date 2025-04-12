@@ -36,7 +36,7 @@ export const appController = async (app, express) => {
     app.use("/", authRoutes.default);
 
     const userRoutes = await import("./user/routes/userRoutes.js");
-    app.use("/profile", userRoutes.default);
+    app.use("/user", userRoutes.default);
 
     const locationRoutes = await import("./locations/routes/locationRoutes.js");
     app.use("/admin/locations", locationRoutes.default);
