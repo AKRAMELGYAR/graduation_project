@@ -42,7 +42,7 @@ export const appController = async (app, express) => {
     app.use("/admin/locations", locationRoutes.default);
 
     const doctorRoutes = await import("./DoctorDetails/routes/doctorRoutes.js");
-    app.use("/admin/doctors", doctorRoutes.default);
+    app.use("/doctors", doctorRoutes.default);
 
     const DoctorSchedule = await import("./Doctor/routes/scheduleRoutes.js");
     app.use("/doctor/schedule", DoctorSchedule.default);
