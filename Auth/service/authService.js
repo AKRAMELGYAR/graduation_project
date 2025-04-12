@@ -38,10 +38,10 @@ export const signIn = async (req, res, next) => {
     const { email, password } = req.body;
     const user = await findUser({ payload: { email } });
     if (!user)
-        return next(new Error("user not found", { cause: 400 }));
+        return next(new Error("invalid Email or password", { cause: 400 }));
     const isPasswordMatch = await comparePassword({ key: password, hashed: user.password });
     if (!isPasswordMatch)
-        return next(new Error("wrong password", { cause: 400 }));
+        return next(new Error("invalid Email or password", { cause: 400 }));
     const token = await signing({ payload: { email: user.email, id: user._id }, SECRET_KEY: process.env.JWT_SECRET, expire: { expiresIn: "1d" } });
     
     return res.status(200).json({ message: "success", token, role: user.role });
