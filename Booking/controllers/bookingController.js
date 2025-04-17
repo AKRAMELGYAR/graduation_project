@@ -25,7 +25,7 @@ export const getDoctorBookings = asyncHandler (async (req, res, next) => {
 
 export const getAvailableSlots = asyncHandler(async (req, res, next) => {
         if(!req.user) return next(new Error("Unauthorized", { cause: 401 }));
-        const { doctorId} = req.body;
+        const {doctorId} = req.params;
         const slots = await bookingService.getAvailableSlots(doctorId);
         res.status(200).json({ message: "success", data: slots });
 });
