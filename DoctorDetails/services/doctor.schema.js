@@ -15,7 +15,7 @@ export const addDoctorSchema = {
         fees: joi.number().min(100).max(5000).required(),
         aboutDoctor: joi.string().min(10).max(1000).required()
     }),
-    file: joi.object()
+    file: joi.object().optional(),
 }
 
 

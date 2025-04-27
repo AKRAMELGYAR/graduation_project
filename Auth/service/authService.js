@@ -44,5 +44,17 @@ export const signIn = async (req, res, next) => {
         return next(new Error("invalid Email or password", { cause: 400 }));
     const token = await signing({ payload: { email: user.email, id: user._id }, SECRET_KEY: process.env.JWT_SECRET, expire: { expiresIn: "1d" } });
     
-    return res.status(200).json({ message: "success", token, role: user.role });
+    // return res.status(200).json({ message: "success", token, role: user.role });
+    return res.status(200).json({ 
+        message: "success", 
+        token, 
+        role: user.role,
+        user: {
+            _id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            role: user.role
+        }
+    });
 }

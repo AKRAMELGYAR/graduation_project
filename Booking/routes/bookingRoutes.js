@@ -8,7 +8,7 @@ import { enumRole } from "../../user/model/userModel.js";
 const router = express.Router();
 
 //get available slots for a doctor
-router.get("/slots", authentication, verifyRole([enumRole.patient]), bookingController.getAvailableSlots);
+router.get("/slots/:doctorId", authentication, verifyRole([enumRole.patient]), bookingController.getAvailableSlots);
 
 //book a slot
 router.post("/book", authentication, verifyRole([enumRole.patient]), bookingController.bookSlot);
