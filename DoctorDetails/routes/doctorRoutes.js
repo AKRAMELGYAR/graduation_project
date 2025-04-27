@@ -4,19 +4,17 @@ import validation from "../../middlewares/validation.js";
 import * as DS from "../services/doctor.schema.js";
 import { multerWithCloudinary, fileTypes } from "../../middlewares/multer.js";
 import authentication from "../../middlewares/authentication.js";
-import verifyRole from "../../middlewares/verifyRole.js";
-import { enumRole } from "../../user/model/userModel.js";
 
 const doctorRouter = Router();
 
-doctorRouter.post("/addDoctor", multerWithCloudinary([...fileTypes.image]).single("image"), authentication, verifyRole([enumRole.admin]), validation(DS.addDoctorSchema), doctorController.addDoctor);
+doctorRouter.post("/addDoctor", multerWithCloudinary([...fileTypes.image]).single("image"), authentication, validation(DS.addDoctorSchema), doctorController.addDoctor);
 
 doctorRouter.get("/allDoctors", authentication, doctorController.getAllDoctors);
 
 doctorRouter.get("/:id", authentication, doctorController.getDoctor);
 
-doctorRouter.delete("/:id", authentication, verifyRole([enumRole.admin]),doctorController.deleteDoctor);
+doctorRouter.delete("/:id", authentication, doctorController.deleteDoctor);
 
-doctorRouter.patch("/:id", authentication, verifyRole([enumRole.admin]),validation(DS.updateDoctorSchema), doctorController.updateDoctor);
+doctorRouter.patch("/:id", authentication, validation(DS.updateDoctorSchema), doctorController.updateDoctor);
 
 export default doctorRouter;
